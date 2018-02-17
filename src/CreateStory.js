@@ -1,34 +1,25 @@
 import React from 'react';
 // import { Link } from 'react-router-dom'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
-import { styles } from './utilities'
+import { styles, firebase, db } from './utilities'
 
-const Upload = ({ change, next }) => (
-	<div style={ { display: "flex", flexDirection: "column" } } >
-		<div style={ styles.boldText } >Choose Some Pictures to Upload</div>
-		<input style={ { width: "100%", height: "100%" } } type="file" multiple accept="image/*" onChange={ change } />
-		<div style={ styles.button } onClick={ next } >Done</div>
-	</div>
-)
-const Order = ({ change, next }) => <div onChange={ change } >test</div>
-const Captions = ({ change, next }) => <div onChange={ change } >test</div>
-const Content = ({ change, next }) => <div onChange={ change } >test</div>
-const Ready = ({ change, next }) => <div onChange={ change } >test</div>
+import Upload from './createStoryComponents/Upload'
+import Order from './createStoryComponents/Order'
+import Compose from './createStoryComponents/Compose'
+import Ready from './createStoryComponents/Ready'
 
 const statusMap = {
 	upload: Upload,
 	order: Order,
-	captions: Captions,
-	content: Content,
+	compose: Compose,
 	ready: Ready
 }
 
 const statusArray = [
 	"upload",
 	"order",
-	"captions",
-	"content",
+	"compose",
 	"ready"
 ]
 
@@ -40,35 +31,95 @@ export default class CreateStory extends React.Component {
 	constructor (props) {
 		super(props)
 
-		this.change = this.change.bind(this)
-		this.next = this.next.bind(this)
+		// this.change = this.change.bind(this)
+		// this.next = this.next.bind(this)
 		this.cancel = this.cancel.bind(this)
 		this.prompt = this.prompt.bind(this)
+		this.done = this.done.bind(this)
+
+		this.uploadFiles = this.uploadFiles.bind(this)
+		this.next = this.next.bind(this)
+		this.submitOrder = this.submitOrder.bind(this)
+		this.preview = this.preview.bind(this)
 	}
 
 	state = {
 		status: "upload",
-		story: [],
-		images: [],
+		story: {},
+		// { name: file }
+		images: {},
+		files: [],
+		name: "",
 		order: [],
-		captions: [],
-		content: []
+		// compose: []
 	}
 
 	// componentWillMount () {
 	// 	console.log(this.props)
 	// }
 
-	change (things) { this.setState({ [this.state.status]: things }) }
-	next () { this.setState({ status: statusArray[statusArray.indexOf(this.state.status) + 1] }) }
 	cancel () { this.props.history.push("/") }
 	prompt () { this.setState({ confirm: true }) }
+	done () {
+		let { story, files, name } = this.state
+		let id = db.collection("stories").doc()
+
+		// save images to storage bucket
+		let imageRefs = []
+
+		story.user = firebase.auth().currentUser.uid
+		story.name = name
+
+		// save story to database
+		try {
+			let r = db.collection("stories").doc(id).set(story)
+			console.log("successfully inserted story: ", r)
+		}
+		catch (e) {
+			console.log("failed to create new story: ", e)
+		}
+	}
+
+	async uploadFiles (e) {
+		// console.log(e.target.files)
+		await this.setState({ files: this.state.files.concat(Array.from(e.target.files)) })
+
+		let images = {}
+
+		this.state.files.forEach(f => images[f.name] = window.URL.createObjectURL(f))
+		this.setState({ images })
+	}
+
+	next () { this.setState({ status: statusArray[statusArray.indexOf(this.state.status) + 1] }) }
+
+	submitOrder (order) { 
+		this.setState({ 
+			order, 
+			status: statusArray[statusArray.indexOf(this.state.status) + 1] 
+		}) 
+	}
+
+	preview (story) {
+		this.setState({ 
+			story, 
+			status: statusArray[statusArray.indexOf(this.state.status) + 1] 
+		})
+	}
 
 	render () {			
+		const propsMap = {
+			upload: { change: this.uploadFiles, next: this.next },
+			order: { images: this.state.images, next: this.submitOrder },
+			compose: { order: this.state.order, images: this.state.images, next: this.preview },
+			ready: { story: this.state.story }
+		}
+
 		let { status, confirm } = this.state
 		let Component = statusMap[status]
 
-		let props = { change: this.change, next: this.next }
+		// console.log(this.state)
+
+		let props = propsMap[status]
 
 		return (
 			<div style={ styles.whiteBackground } >

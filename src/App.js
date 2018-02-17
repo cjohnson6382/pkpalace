@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import { BrowserRouter, Route } from 'react-router-dom' // , Redirect
 
 import { styles, listenForAuth } from './utilities' // db, firebase, 
-import { bannerMessage } from './content'
 
 import Body from './Body'
 import Story from './Story'
+import Header from './Header'
 import Footer from './Footer'
 import Sidebar from './Sidebar'
 
@@ -106,22 +106,21 @@ class App extends React.Component {
 	//	<div style={ styles.paddingTwo } ><Body posts={ posts } /></div>
 		return (
 			<BrowserRouter>
-				<div className="App" style={ styles.siteContainer } >
-					<Sidebar posts={ posts } auth={ auth } />
-					<div style={ styles.inner } >
-						<div style={ styles.paddingTwo } >
-							<h2 style={ styles.title } >Archives of the Pk Palace: Nothing Lasts Forever</h2>
-							<div style={ styles.boldText } >{ bannerMessage }</div>
+				<div style={ styles.paddingTwo } >
+					<div className="App" style={ styles.siteContainer } >
+						<Sidebar posts={ posts } auth={ auth } />
+						<div style={ styles.inner } >
+							<Header />
+							<Route exact path="/" render={ routeProps => <Body posts={ posts } auth={ auth } { ...routeProps } /> } />
+							<Route exact path="/story/:id" render={ routeProps => <Story auth={ auth } { ...routeProps } /> } />
+							<Route exact path="/pending" render={ routeProps => <Pending posts={ posts } auth={ auth } { ...routeProps } /> } />
+							<Route exact path="/login" render={ routeProps => <Login auth={ auth } { ...routeProps } /> } />
+							<Route exact path="/waiting" render={ () => <div style={ styles.whiteBackground } >You're in asshole jail. Stay here until we let you out. (Loading)</div> } />
+							<Route exact path="/register" render={ () => <Register /> } />
+							<Authorized exact path="/posts/new" component={ CreateStory } />
+							<Authorized exact path="/posts/me" component={ MyStories } />
+							<Footer />
 						</div>
-						<Route exact path="/" render={ routeProps => <Body posts={ posts } auth={ auth } { ...routeProps } /> } />
-						<Route exact path="/story/:id" render={ routeProps => <Story auth={ auth } { ...routeProps } /> } />
-						<Route exact path="/pending" render={ routeProps => <Pending posts={ posts } auth={ auth } { ...routeProps } /> } />
-						<Route exact path="/login" render={ routeProps => <Login auth={ auth } { ...routeProps } /> } />
-						<Route exact path="/waiting" render={ () => <div style={ styles.whiteBackground } >You're in asshole jail. Stay here until we let you out. (Loading)</div> } />
-						<Route exact path="/register" render={ () => <Register /> } />
-						<Authorized exact path="/posts/new" component={ CreateStory } />
-						<Authorized exact path="/posts/me" component={ MyStories } />
-						<Footer />
 					</div>
 				</div>
 			</BrowserRouter>

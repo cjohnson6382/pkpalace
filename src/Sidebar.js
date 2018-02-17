@@ -33,8 +33,9 @@ export default class Sidebar extends React.Component {
 					{ authenticated && <Link style={ styles.button } to="/posts/me" >View My Stories</Link> }
 				</div>
 				<div style={ { paddingLeft: "0.3em" } } >
+					{ posts.length < 1 && <div style={ { ...styles.sideBanner, padding: "2em 0 0 0" } } >[Placeholder for Stories]</div> }
 					{ posts.map(p => (
-						<Link to={ `/detail/${p.id}` } >{ p.title }</Link>
+						<Link style={ styles.sideBanner } to={ `/story/${p.id}` } >{ p.title }</Link>
 					)) }
 				</div>
 				<div style={ { padding: "2em 0 2em 0" } } >

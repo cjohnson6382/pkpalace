@@ -20,6 +20,7 @@ const Body = ({ posts }) => {
 						<Summary story={ p.story.split(".", 3).join(".") } id={ p.id } />	
 					</div>
 				)) }
+				{ posts.length < 1 && <div style={ { padding: "2em 0 0 0" } } >[Placeholder for Stories]</div> }
 			</div>
 		</div>
 	)

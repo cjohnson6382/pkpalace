@@ -10,10 +10,10 @@ export default class Auth {
 		this.logout = this.logout.bind(this)
 		this.isAuthenticated = this.isAuthenticated.bind(this)
 
-		firebase.auth().onAuthStateChanged(user => {
-			this.notificationList.map(f => f(user))
-			this.currentUser = user
-		})
+		// firebase.auth().onAuthStateChanged(user => {
+		// 	this.notificationList.map(f => f(user))
+		// 	this.currentUser = user
+		// })
 	}
 
 	currentUser = firebase.auth().currentUser
@@ -89,7 +89,9 @@ export default class Auth {
 		}
 	}
 
-	isAuthenticated () { return !!this.currentUser }
+	isAuthenticated () { 
+		return !!firebase.auth().currentUser
+	}
 
 	subscribeToInitNotification (f) { this.notificationList.push(f) }
 

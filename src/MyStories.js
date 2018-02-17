@@ -24,7 +24,7 @@ export default class MyPosts extends React.Component {
 		return (
 			<div style={ styles.whiteBackground } >
 				{ loading === false && posts.length < 1 && 
-					<div style={ styles.paddingTwo } >
+					<div style={ { ...styles.paddingTwo, fontWeight: "bold" } } >
 						The story is that you haven't written any, asshole
 					</div>
 				}
