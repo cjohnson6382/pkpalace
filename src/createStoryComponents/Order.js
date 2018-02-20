@@ -2,7 +2,7 @@ import React from 'react';
 // import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { styles, firebase, db } from '../utilities'
+import { styles } from '../utilities' // , firebase, db
 
 
 const localStyles = {
@@ -68,7 +68,7 @@ export default class Order extends React.Component {
 	}
 
 	done () {
-		let { ordering, imageMap } = this.state
+		let { ordering } = this.state // , imageMap
 
 		let a = Object.entries(ordering).sort((a, b) => a[1] > b[1])
 		// console.log(a)
@@ -81,7 +81,7 @@ export default class Order extends React.Component {
 	}
 
 	render () {
-		let { images, next } = this.props
+		let { images } = this.props // , next
 		let { ordering } = this.state
 
 		return (
@@ -89,7 +89,7 @@ export default class Order extends React.Component {
 				<div style={ localStyles.grid } >
 					{ Object.entries(images).map((image) => (
 							<div onClick={ e => this.chooseOrder(image[0]) } style={ localStyles.gridItems(!isNaN(ordering[image[0]])) } key={ image[0] } >
-								<img style={ { width: "100%" } } src={ image[1] } alt={ image[0] } />
+								<img style={ { width: "100%" } } src={ image[1].objectURL } alt={ image[0] } />
 							</div>
 						))
 					}					

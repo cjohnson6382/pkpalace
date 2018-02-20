@@ -1,5 +1,6 @@
+export const siteTitle = "Annals of the Pk Palace: Nothing Lasts Forever"
 
-export const bannerMessage = "Ultima Online died 20 years ago. We just remind you why you hated it."
+export const bannerMessage = "Ultima Online died 20 years ago. We are here to remind you why you hated it."
 
 export const demoPostContent = `
 	Today, children, you will hear the story of shithead the lonely dragon. 
@@ -17,3 +18,4 @@ export const demoFooter = `
 	Fucking GO.
 	We hate you.
 `
+export const copyright = 'Copyright 2018, PkPalace'

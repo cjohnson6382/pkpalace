@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import { styles, firebase, db } from './utilities'
 
@@ -23,6 +23,35 @@ const statusArray = [
 	"ready"
 ]
 
+const localStyles = {
+	fatButton: {
+		fontSize: "125%", 
+		width: "40%", 
+		padding: "2em"
+	},
+	outerOverlay: { 
+		top: 0, 
+		left: 0, 
+		width: "100%", 
+		alignSelf: "flex-start", 
+		alignItems: "center", 
+		justifyContent: "center", 
+		height: "100%", 
+		position: "absolute", 
+		display: "flex", 
+		flexDirection: "column", 
+		backgroundColor: "rgba(0, 0, 0, 0.3)" 
+	},
+	innerOverlay: { 
+		backgroundColor: "rgba(255, 0, 0, 0.7)", 
+		fontSize: "150%", 
+		color: "white", 
+		padding: "2em", 
+		width: "40%", 
+		margin: "1em" 
+	}
+}
+
 export default class CreateStory extends React.Component {
 	// static propTypes = {
 
@@ -31,8 +60,6 @@ export default class CreateStory extends React.Component {
 	constructor (props) {
 		super(props)
 
-		// this.change = this.change.bind(this)
-		// this.next = this.next.bind(this)
 		this.cancel = this.cancel.bind(this)
 		this.prompt = this.prompt.bind(this)
 		this.done = this.done.bind(this)
@@ -49,7 +76,7 @@ export default class CreateStory extends React.Component {
 		// { name: file }
 		images: {},
 		files: [],
-		name: "",
+		// name: "",
 		order: [],
 		// compose: []
 	}
@@ -61,11 +88,12 @@ export default class CreateStory extends React.Component {
 	cancel () { this.props.history.push("/") }
 	prompt () { this.setState({ confirm: true }) }
 	done () {
-		let { story, files, name } = this.state
+		// files, 
+		let { story, name } = this.state
 		let id = db.collection("stories").doc()
 
 		// save images to storage bucket
-		let imageRefs = []
+		// let imageRefs = []
 
 		story.user = firebase.auth().currentUser.uid
 		story.name = name
@@ -86,8 +114,10 @@ export default class CreateStory extends React.Component {
 
 		let images = {}
 
-		this.state.files.forEach(f => images[f.name] = window.URL.createObjectURL(f))
-		this.setState({ images })
+		this.state.files.forEach(f => images[f.name] = { objectURL: window.URL.createObjectURL(f), image: f })
+		await this.setState({ images })
+
+		console.log(this.state.images)
 	}
 
 	next () { this.setState({ status: statusArray[statusArray.indexOf(this.state.status) + 1] }) }
@@ -101,38 +131,44 @@ export default class CreateStory extends React.Component {
 
 	preview (story) {
 		this.setState({ 
-			story, 
+			story: { body: story }, 
 			status: statusArray[statusArray.indexOf(this.state.status) + 1] 
 		})
 	}
 
 	render () {			
 		const propsMap = {
-			upload: { change: this.uploadFiles, next: this.next },
-			order: { images: this.state.images, next: this.submitOrder },
-			compose: { order: this.state.order, images: this.state.images, next: this.preview },
-			ready: { story: this.state.story }
+			upload: { next: this.next, change: this.uploadFiles },
+			order: { next: this.submitOrder, images: this.state.images },
+			compose: { next: this.preview, images: this.state.images, order: this.state.order },
+			ready: { 
+				next: this.done, 
+				images: this.state.images, 
+				story: this.state.story, 
+				clear: () => this.setState({ 
+					status: "upload", 
+					story: {}, 
+					images: {}, 
+					order: [],
+					files: []
+				}) 
+			}
 		}
 
 		let { status, confirm } = this.state
 		let Component = statusMap[status]
-
-		// console.log(this.state)
-
 		let props = propsMap[status]
 
 		return (
 			<div style={ styles.whiteBackground } >
 				{ confirm && 
-					<div style={ { top: 0, left: 0, width: "100%", alignSelf: "flex-start", alignItems: "center", justifyContent: "center", height: "100%", position: "absolute", display: "flex", flexDirection: "column", backgroundColor: "rgba(0, 0, 0, 0.3)" } } >
-						<div style={ { backgroundColor: "rgba(255, 0, 0, 0.7)", fontSize: "150%", color: "white", padding: "2em", width: "40%", margin: "1em" } } >Are you giving up?</div>
-						<div style={ { ...styles.button, fontSize: "125%", width: "40%", padding: "2em" } } onClick={ this.cancel } >Yes, Yes I am.</div>
-						<div style={ { ...styles.button, fontSize: "125%", width: "40%", padding: "2em" } } onClick={ e => this.setState({ confirm: false }) } >No Mames, Senor</div>	
+					<div style={ localStyles.outerOverlay } >
+						<div style={ localStyles.innerOverlay } >Are you giving up?</div>
+						<div style={ { ...styles.button, ...localStyles.fatButton } } onClick={ this.cancel } >Yes, Yes I am.</div>
+						<div style={ { ...styles.button, ...localStyles.fatButton } } onClick={ e => this.setState({ confirm: false }) } >No Mames, Senor</div>	
 					</div>
 				}			
-				<div style={ styles.paddingTwo } >
-					<Component { ...props } />
-				</div>
+				<div style={ styles.paddingTwo } ><Component { ...props } /></div>
 				<div style={ styles.button } onClick={ this.prompt } >Cancel</div>
 			</div>
 		)

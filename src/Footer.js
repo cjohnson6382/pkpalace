@@ -2,13 +2,14 @@ import React from 'react'
 
 import { styles } from './utilities'
 
-import { demoFooter } from './content'
+import { copyright, demoFooter } from './content'
 
 const Footer = () => (
-	<div style={ styles.wide } >
+	<div style={ { ...styles.wide, fontSize: "60%" } } >
 		<div style={ { ...styles.fourHigh, ...styles.centeredJustified } } >
 			{ demoFooter }
 		</div>
+		<div style={ styles.fourHigh } >{ copyright }</div>
 	</div>
 )
 

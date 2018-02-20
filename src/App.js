@@ -7,7 +7,7 @@ import { BrowserRouter, Route } from 'react-router-dom' // , Redirect
 import { styles, listenForAuth } from './utilities' // db, firebase, 
 
 import Body from './Body'
-import Story from './Story'
+import Detailed from './Detailed'
 import Header from './Header'
 import Footer from './Footer'
 import Sidebar from './Sidebar'
@@ -19,11 +19,11 @@ import Pending from './Pending'
 import CreateStory from './CreateStory'
 import MyStories from './MyStories'
 
+import { db } from './utilities'
+
 import Auth from './Auth'
 const auth = new Auth()
 
-// firebase.auth().onAuthStateChanged(user => user ? localStorage.setItem('solarfit_logged_in', true) : localStorage.setItem('solarfit_logged_in', false))
-// const Landing = () => <div><h1>Click the Sign In button on the left sidebar to get started</h1></div>
 
 class CheckRegistration extends React.Component {
   static propTypes = {
@@ -38,7 +38,7 @@ class CheckRegistration extends React.Component {
 
   state = { loading: true, user: {}, auth }
 
-  componentWillMount () {
+  async componentWillMount () {
     this.checkRegistration()
   }
 
@@ -74,36 +74,64 @@ class CheckRegistration extends React.Component {
 
 class App extends React.Component {
 
-	// constructor (props) { 
-	// 	super(props) 
-	// }
+	constructor (props) { 
+		super(props) 
 
-	state = { posts: [] }
+    this.watchStoryDB = this.watchStoryDB.bind(this)
+	}
+
+	state = { posts: [], unsubscribe: () => { console.log("unsubscribe has not been set yet") } }
 
 	auth = new Auth()
 
-	componentWillMount () {
+	async componentWillMount () {
+    this.watchStoryDB()
+
+		let pp = await db.collection("stories").get()
+
 		let posts = []
+
+		pp.forEach(p => {
+			let { name, body } = p.data()
+			posts.push({ name, body, id: p.id })
+		})
+
 		this.setState({ posts })
 	}
+
+  comonentWillUnmount () {
+    let { unsubscribe } = this.state
+    unsubscribe()
+  }
+
+  watchStoryDB () {
+    let unsubscribe = db.collection("stories").onSnapshot(async snapshot => {
+      snapshot.docChanges.forEach(async change => {
+        let { posts } = this.state
+        if (change.type === "added" || change.type === "modified") { 
+          let post = Object.assign({}, change.doc.data(), { id: change.doc.id })
+          posts.push(post) 
+        }
+        else if (change.type === "removed") {
+          let pindex = posts.map(p => p.id).indexOf(change.doc.id)
+          posts.slice(pindex, 1)
+        }
+        else { console.log("unknown change type: ", change) }
+
+        await this.setState({ posts })
+      })
+    })
+
+    this.setState({ unsubscribe })
+  }
 
 	render() {
 		let { posts } = this.state
 
-        //   return auth.isAuthenticated() ? 
-        //     <CheckRegistration { ...{ ...rest, Component, auth, ...props } } />
-        //   :
-        //     <Redirect to={ { pathname: "/waiting", state: { from: props.location } } } /> 
-        // }
     const Authorized = ({ component: Component, ...rest }) => {
       return <Route { ...rest } render={ props => <CheckRegistration { ...{ ...rest, Component, auth, ...props } } /> } /> 
     }
 
-		// <Route exact path="/landing" render={ routeProps => <Landing auth={ auth } { ...routeProps } /> } />
-		// <Authorized exact path="/map" component={ Home } />
-
-
-	//	<div style={ styles.paddingTwo } ><Body posts={ posts } /></div>
 		return (
 			<BrowserRouter>
 				<div style={ styles.paddingTwo } >
@@ -112,7 +140,7 @@ class App extends React.Component {
 						<div style={ styles.inner } >
 							<Header />
 							<Route exact path="/" render={ routeProps => <Body posts={ posts } auth={ auth } { ...routeProps } /> } />
-							<Route exact path="/story/:id" render={ routeProps => <Story auth={ auth } { ...routeProps } /> } />
+							<Route exact path="/story/:id" render={ routeProps => <Detailed auth={ auth } { ...routeProps } /> } />
 							<Route exact path="/pending" render={ routeProps => <Pending posts={ posts } auth={ auth } { ...routeProps } /> } />
 							<Route exact path="/login" render={ routeProps => <Login auth={ auth } { ...routeProps } /> } />
 							<Route exact path="/waiting" render={ () => <div style={ styles.whiteBackground } >You're in asshole jail. Stay here until we let you out. (Loading)</div> } />

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 
 import { styles } from './utilities'
 
-import { bannerMessage } from './content'
+import { bannerMessage, siteTitle } from './content'
 
 const Header = () => (
 	<Link to="/" style={ { ...styles.paddingTwo, cursor: "pointer", textDecoration: "none", color: "black" } } >
-		<h2 style={ styles.title } >Archives of the Pk Palace: Nothing Lasts Forever</h2>
+		<h2 style={ styles.title } >{ siteTitle }</h2>
 		<div style={ styles.boldText } >{ bannerMessage }</div>
 	</Link>
 )

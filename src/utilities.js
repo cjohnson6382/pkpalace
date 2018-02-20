@@ -92,11 +92,13 @@ export const listenForAuth = () => {
 
 			if (u.pending === false) {
 				console.log("user is all setup and ready to be used")
-				history.location.pathname === "/" ? null : history.push("/")
+				// console.log(history.location.pathname)
+				history.push("/") // history.location.pathname === "/" ? null : 
 				unsubscribe()
 			}
 		}
 		else { 
+			console.log("pushing back to login")
 		  	history.push("/login")
 		  	unsubscribe()
 		}
@@ -140,16 +142,24 @@ export const styles = {
 		fontWeight: "bold"
 	},
 	title: {
-		margin: "0"
+		margin: "0",
+		fontSize: "110%"
 	},
 	sidebarBanner: {
 		fontSize: "75%",
 		margin: "0 0 0.5em 0"
 	},
+	sidebarText: {
+		border: "1px solid white",
+		backgroundColor: "rgba(255, 255, 255, 0.5)",
+		padding: "0.2em",
+		textDecoration: "none",
+		margin: "0 0 0.5em 0"
+	},
 	postTitle: {
 		fontSize: "125%",
 		fontWeight: "bold",
-		padding: "0 0 0.5em 0"
+		padding: "0 0 0.3em 0"
 	},
 	bodyContent: {
 		display: "flex",

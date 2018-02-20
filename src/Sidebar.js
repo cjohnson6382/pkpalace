@@ -22,20 +22,22 @@ export default class Sidebar extends React.Component {
 
 	render () {
 		let { authenticated } = this.state
-		let { auth, posts } = this.props
+		let { auth, posts, history } = this.props
+
+		console.log(posts)
 
 		return (
 			<div style={ styles.sidebar } >
-				<div style={ styles.boldText } >Stories</div>
-				<div style={ styles.sidebarBanner } >It's storytime kids; shut the fuck up</div>
-				<div style={ { display: "flex", flexDirection: "column" } } >
+				<div style={ { display: "flex", flexDirection: "column", padding: "0 0 1em 0" } } >
 					{ authenticated && <Link style={ styles.button } to="/posts/new" >Create A Story</Link> }
 					{ authenticated && <Link style={ styles.button } to="/posts/me" >View My Stories</Link> }
-				</div>
-				<div style={ { paddingLeft: "0.3em" } } >
+				</div>			
+				<div style={ styles.boldText } >Stories</div>
+				<div style={ styles.sidebarBanner } >Storytime kids; shut the fuck up</div>
+				<div style={ { padding: "0.5em 0.3em 0 0.3em", display: "flex", flexDirection: "column" } } >
 					{ posts.length < 1 && <div style={ { ...styles.sideBanner, padding: "2em 0 0 0" } } >[Placeholder for Stories]</div> }
-					{ posts.map(p => (
-						<Link style={ styles.sideBanner } to={ `/story/${p.id}` } >{ p.title }</Link>
+					{ posts.map((p, i) => (
+						<Link key={ i } style={ styles.sidebarText } to={ `/story/${p.id}` } >{ p.name }</Link>
 					)) }
 				</div>
 				<div style={ { padding: "2em 0 2em 0" } } >
