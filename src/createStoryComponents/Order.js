@@ -86,6 +86,13 @@ export default class Order extends React.Component {
 
 		return (
 			<div>
+				<h4>Order</h4>
+				<p>
+					Just click on the images in the order you wish them to appear in the story. 
+					They will dim to indicate that they have been selected. 
+					When you are done, hit done. 
+					Any images that have not been selected will not be included in your story.
+				</p>
 				<div style={ localStyles.grid } >
 					{ Object.entries(images).map((image) => (
 							<div onClick={ e => this.chooseOrder(image[0]) } style={ localStyles.gridItems(!isNaN(ordering[image[0]])) } key={ image[0] } >

@@ -174,7 +174,8 @@ export const styles = {
 	},
 	whiteBackground: {
 		backgroundColor: "rgba(71, 55, 62, 0.2)",
-		padding: "0.5em"
+		padding: "0.5em",
+		color: "#bebfbd"
 	},
 	summaryContainer: {
 		padding: "0 0 0.5em 0",

@@ -31,6 +31,7 @@ const localStyles = {
 
 const Overlay = ({ show, change, submit, id, group, type }) => (
 	<form onSubmit={ submit } style={ localStyles.overlay(show) } >
+		<div>{ type }</div>
 		<textarea
 			name="textfield" 
 			onChange={ e => change(e, type, id) }
@@ -116,6 +117,8 @@ export default class Compose extends React.Component {
 
 		return (
 			<div style={ { display: "flex", flexDirection: "column" } } >
+				<h4>Add text to your images</h4>
+				<p>Click on an image to add a caption underneath it. Click on the 'Add Text' button beneath an image to add text</p>
 				{
 					order.map((name, i) => (
 						<div key={ i } >

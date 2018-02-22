@@ -37,7 +37,7 @@ const localStyles = {
 		alignItems: "center", 
 		justifyContent: "center", 
 		height: "100%", 
-		position: "absolute", 
+		position: "fixed", 
 		display: "flex", 
 		flexDirection: "column", 
 		backgroundColor: "rgba(0, 0, 0, 0.3)" 
