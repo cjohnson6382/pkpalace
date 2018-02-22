@@ -32,9 +32,6 @@ export default class Detailed extends React.Component {
 
 	render () {
 		let { story } = this.state
-
-		console.log(story)
-
 		return <Story story={ story } />
 	}
 }

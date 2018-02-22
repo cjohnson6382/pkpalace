@@ -8,10 +8,12 @@ import { styles } from '../utilities' // , firebase, db
 const localStyles = {
 	caption: {
 		fontSize: "50%",
-		padding: "0 0 1em 0"
+		padding: "0 0 1em 0",
+		color: "#bebfbd"
 	},
 	text: {
-		padding: "2em"
+		padding: "2em",
+		color: "#bebfbd"
 	},
 	overlay: show => ({
 		position: "fixed", 
@@ -37,7 +39,8 @@ const Overlay = ({ show, change, submit, id, group, type }) => (
 			style={ { 
 				width: "50%", 
 				height: "50%", 
-				backgroundColor: "white" 
+				backgroundColor: "rgba(71, 55, 62, 0.2)",
+				color: "white"
 			} } 
 		/>
 		<input type="submit" value="Done" style={ { ...styles.button, width: "50%" } } />
@@ -150,7 +153,8 @@ export default class Compose extends React.Component {
 									<div 
 										style={ { 
 											cursor: "pointer", 
-											padding: "2em" 
+											padding: "2em",
+											color: "#bebfbd"
 										} } 
 										onClick={ e => this.addText("text", name) } 
 									>
@@ -159,7 +163,7 @@ export default class Compose extends React.Component {
 								}
 								{ text[name] && 
 									<div 
-										style={ styles.text } 
+										style={ localStyles.text } 
 										onClick={ e => this.addText("text", name) } 
 									>
 										{ text[name] }

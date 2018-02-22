@@ -8,25 +8,6 @@ import Story from '../Story'
 
 const storageRef = firebase.storage().ref();
 
-
-// add a name for the story, render it, let the user save it, or go back to editing it
-// upload all the pics to storage, place the storage IDs on the story object
-/*
-	let { images, story } = this.props
-
-	story.map(image => { 
-		//	get the image
-		let imageFile = images[image.id]
-		//	save image to storage
-		let storage = {} // upload to storage
-
-		//	get a storage id
-		image.id = storage.id 
-	})
-
-	// should dispatch "uploading to storage" to a web worker so that the user can navigate around?
-*/
-
 export default class Ready extends React.Component {
 	static propTypes = {
 		clear: PropTypes.func
@@ -134,13 +115,15 @@ export default class Ready extends React.Component {
 		let combined = Object.assign({}, story, done)
 
 		return (
-			<div>
+			<div style={ { color: "#bebfbd" } } >
 				<div style={ { padding: "1em" } } >
 					<div style={ { fontWeight: "bold", padding: "0 1em 0 0" } }>Give it a name</div>
 					<input onChange={ e => this.setState({ done: Object.assign({}, this.state.done, { name: e.target.value }) }) } type="text" />
 				</div>
-				<h4>Preview</h4>
+
 				<div style={ { padding: "0 0 2em 0" } } >Scroll to the bottom to approve</div>
+				<h4>Preview</h4>
+
 				<Story story={ combined } />
 				{ ready && <div style={ styles.button } onClick={ this.uploadStory } >Post</div> }
 				{ !ready && <div>Uploading pictures to the magical storage place</div> }

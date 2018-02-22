@@ -5,7 +5,7 @@ import { styles } from './utilities'
 import { copyright, demoFooter } from './content'
 
 const Footer = () => (
-	<div style={ { ...styles.wide, fontSize: "60%" } } >
+	<div style={ { ...styles.wide, fontSize: "65%" } } >
 		<div style={ { ...styles.fourHigh, ...styles.centeredJustified } } >
 			{ demoFooter }
 		</div>

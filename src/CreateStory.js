@@ -45,7 +45,7 @@ const localStyles = {
 	innerOverlay: { 
 		backgroundColor: "rgba(255, 0, 0, 0.7)", 
 		fontSize: "150%", 
-		color: "white", 
+		color: "#bebfbd", 
 		padding: "2em", 
 		width: "40%", 
 		margin: "1em" 

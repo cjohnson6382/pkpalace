@@ -6,7 +6,7 @@ import React from 'react'
 
 const localStyles = {
 	storyContainer: {
-		backgroundColor: "white"
+		backgroundColor: "rgba(71, 55, 62, 0.2)"
 	},
 	storyImageContainer: {
 		width: "100%"
@@ -16,15 +16,18 @@ const localStyles = {
 	},
 	storyCaption: {
 		fontSize: "50%",
-		padding: "0 0 1em 0"
+		padding: "0 0 1em 0",
+		color: "#bebfbd"
 	},
 	storyText: {
-		padding: "0 0 1em 0"
+		padding: "0 0 1em 0",
+		color: "#bebfbd"
 	},
 	storyName: {
 		fontWeight: "bold",
 		fontSize: "125%",
-		padding: "0.5em 0 0.5em 0"
+		padding: "0.5em 0 0.5em 0",
+		color: "#bebfbd"
 	},
 	storyBlock: {
 		width: "100%"

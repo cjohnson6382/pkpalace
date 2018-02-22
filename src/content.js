@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const siteTitle = "Annals of the Pk Palace: Nothing Lasts Forever"
 
 export const bannerMessage = "Ultima Online died 20 years ago. We are here to remind you why you hated it."
@@ -18,4 +20,5 @@ export const demoFooter = `
 	Fucking GO.
 	We hate you.
 `
-export const copyright = 'Copyright 2018, PkPalace'
+
+export const copyright = <div>&copy; 2018, PkPalace</div>

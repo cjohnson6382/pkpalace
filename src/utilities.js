@@ -108,7 +108,8 @@ export const listenForAuth = () => {
 export const styles = {
 	wide: {
 		width: "100%",
-		backgroundColor: "ivory"
+		backgroundColor: "#0b0000",
+		color: "#bebfbd"
 	},
 	siteContainer: {
 		display: "flex",
@@ -127,16 +128,17 @@ export const styles = {
 		padding: "2em"
 	},
 	sidebar: {
-		width: "20%",
-		height: "inherit",
-		backgroundColor: "lightgrey",
-		padding: "0.5em 0 0.5em 0"
+		// width: "20%",
+		height: "100%",
+		backgroundColor: "#271927",
+		color: "#bebfbd",
+		// padding: "0.5em 0 0.5em 0"
 	},
 	inner: {
 		display: "flex",
 		flexDirection: "column",
-		width: "80%",
-		backgroundColor: "cyan"
+		width: "85%",
+		backgroundColor: "#271927"
 	},
 	boldText: {
 		fontWeight: "bold"
@@ -150,11 +152,13 @@ export const styles = {
 		margin: "0 0 0.5em 0"
 	},
 	sidebarText: {
-		border: "1px solid white",
-		backgroundColor: "rgba(255, 255, 255, 0.5)",
+		// border: "1px solid rebeccapurple",
+		// backgroundColor: "purple",
+		background: "linear-gradient(#271927, rgba(199, 21, 133, 0.3))",
 		padding: "0.2em",
 		textDecoration: "none",
-		margin: "0 0 0.5em 0"
+		margin: "0 0 0.5em 0",
+		color: "#bebfbd"
 	},
 	postTitle: {
 		fontSize: "125%",
@@ -165,22 +169,25 @@ export const styles = {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		flexDirection: "column"
+		flexDirection: "column",
+		color: "rgba(71, 55, 62, 0.2)"
 	},
 	whiteBackground: {
-		backgroundColor: "white",
+		backgroundColor: "rgba(71, 55, 62, 0.2)",
 		padding: "0.5em"
 	},
 	summaryContainer: {
-		padding: "0 0 0.5em 0"
+		padding: "0 0 0.5em 0",
+		color: "rgba(190, 191, 189, 0.3)"
 	},
 	button: {
-		backgroundColor: "black",
-		color: "white",
+		// backgroundColor: "purple",
+		background: "radial-gradient(mediumpurple, purple, black, #271927, #271927)",
+		color: "#bebfbd",
 		textDecoration: "none",
 		cursor: "pointer",
 		padding: "0.3em",
-		borderBottom: "1px solid white",
+		// borderBottom: "1px solid rebeccapurple",
 		fontSize: "75%",
 		width: "100%"
 	}

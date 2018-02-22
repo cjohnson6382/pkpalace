@@ -22,15 +22,6 @@ export default class Login extends React.Component {
 		this.setState({ show: true })
 	}
 
-	// <div onClick={ e => this.props.auth.providerLogin("facebook") } ><img alt="Facebook Login" /></div>
-	/*
-	<div style={ { padding: "0.3em" } } >
-		<span style={ { paddingRight: "0.2em" } } >Don't have an account?</span>
-		<span onClick={ this.register } >
-			Register
-		</span>
-	</div>
-	*/
 	render () {
 		return (
 			<div style={ { 
@@ -39,7 +30,7 @@ export default class Login extends React.Component {
 				justifyContent: "center", 
 				alignItems: "center", 
 				padding: "1em", 
-				backgroundColor: "white" 
+				backgroundColor: "#202225" 
 			} } >
 				<div onClick={ e => this.props.auth.providerLogin("google") } >
 					<img alt="Google Login" src={ googleSignInBadge } />
