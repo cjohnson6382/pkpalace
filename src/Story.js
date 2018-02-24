@@ -54,7 +54,7 @@ export default class Story extends React.Component {
 			<div style={ localStyles.storyContainer } >
 				<div style={ { display: "flex", flexDirection: "row", alignItems: "center" } } >
 					<div style={ localStyles.storyName } >{ story ? story.name : "" }</div>
-					{ firebase.auth().currentUser.uid === story.user && <Link to={ `/edit/${id}` } style={ { ...styles.button, width: "10%" } } >Edit</Link> }
+					{ firebase.auth().currentUser && firebase.auth().currentUser.uid === story.user && <Link to={ `/edit/${id}` } style={ { ...styles.button, width: "10%" } } >Edit</Link> }
 				</div>
 				{ story.body.map((block, i) => (
 					<div key={ i } style={ localStyles.storyBlock } >
