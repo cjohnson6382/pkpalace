@@ -13,9 +13,9 @@ const Body = ({ posts }) => {
 		<div style={ styles.whiteBackground } >
 			<div style={ styles.paddingTwo } >
 				{ posts.map((p, i) => (
-					<div key={ i } style={ { padding: "0 0 1em 0", display: "flex", flexDirection: "row", color: "#bebfbd" } } >
+					<div key={ i } style={ { padding: "0 0 1em 0", display: "flex", flexDirection: "row", color: "#bebfbd", alignItems: "stretch" } } >
 						<Link style={ { width: "30%", padding: "0 1em 0 0 " } } to={ `/story/${p.id}` }><img style={ { width: "100%", height: "100%" } } src={ p.body[0].image } alt={ p.body[0].id } /></Link>
-						<div style={ { width: "100%" } } >
+						<div style={ { width: "70%", backgroundColor: "rgba(255, 255, 255, 0.1)", display: "flex", alignItems: "center", flexDirection: "column", justifyContent: "center" } } >
 							<Title title={ p.name } />
 							{ p.body.filter(b => b.text).length > 0 && <Summary story={ p.body.map(b => b.text).join(" ").split(".", 1) + " ..." } id={ p.id } /> }
 							{ p.body.filter(b => b.text).length < 1 && <Summary story="This is a picture story" id={ p.id } /> }
