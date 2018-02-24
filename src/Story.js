@@ -1,8 +1,10 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // import PropTypes from 'prop-types'
 
-// import { styles, db } from './utilities'
+// import {  db } from './utilities'
+
+import { styles, firebase } from './utilities'
 
 const localStyles = {
 	storyContainer: {
@@ -27,7 +29,8 @@ const localStyles = {
 		fontWeight: "bold",
 		fontSize: "125%",
 		padding: "0.5em 0 0.5em 0",
-		color: "#bebfbd"
+		color: "#bebfbd",
+		flex: "10 1 auto"
 	},
 	storyBlock: {
 		width: "100%"
@@ -45,11 +48,14 @@ export default class Story extends React.Component {
 	// }
 
 	render () {
-		let { story } = this.props
+		let { story, id } = this.props
 
 		return (
 			<div style={ localStyles.storyContainer } >
-				<div style={ localStyles.storyName } >{ story ? story.name : "" }</div>
+				<div style={ { display: "flex", flexDirection: "row", alignItems: "center" } } >
+					<div style={ localStyles.storyName } >{ story ? story.name : "" }</div>
+					{ firebase.auth().currentUser.uid === story.user && <Link to={ `/edit/${id}` } style={ { ...styles.button, width: "10%" } } >Edit</Link> }
+				</div>
 				{ story.body.map((block, i) => (
 					<div key={ i } style={ localStyles.storyBlock } >
 						<div style={ localStyles.storyImageContainer } name={ block.id } >

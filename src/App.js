@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom' // , Redirect
 import { db, firebase, styles, listenForAuth } from './utilities'
 
 import Body from './Body'
-import Detailed from './Detailed'
+import { DetailedStory, EditStory } from './Detailed'
 import Header from './Header'
 import Footer from './Footer'
 import Sidebar from './Sidebar'
@@ -154,7 +154,8 @@ class App extends React.Component {
   						<div style={ { width: "15%" } } ><Sidebar posts={ posts } auth={ auth } /></div>
   						<div style={ styles.inner } >
   							<Route exact path="/" render={ routeProps => <Body posts={ posts } auth={ auth } { ...routeProps } /> } />
-  							<Route exact path="/story/:id" render={ routeProps => <Detailed auth={ auth } { ...routeProps } /> } />
+  							<Route exact path="/story/:id" render={ routeProps => <DetailedStory auth={ auth } { ...routeProps } /> } />
+                <Route exact path="/edit/:id" render={ routeProps => <EditStory auth={ auth } { ...routeProps } /> } />
   							<Route exact path="/pending" render={ routeProps => <Pending posts={ posts } auth={ auth } { ...routeProps } /> } />
   							<Route exact path="/login" render={ routeProps => <Login auth={ auth } { ...routeProps } /> } />
   							<Route exact path="/waiting" render={ () => <div style={ styles.whiteBackground } >You're in asshole jail. Stay here until we let you out. (Loading)</div> } />
