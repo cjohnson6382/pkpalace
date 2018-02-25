@@ -17,7 +17,7 @@ const localStyles = {
 		width: "90%"
 	},
 	storyCaption: {
-		fontSize: "50%",
+		fontSize: "80%",
 		padding: "0 0 1em 0",
 		color: "#bebfbd"
 	},
